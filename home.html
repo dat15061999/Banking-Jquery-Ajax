@@ -59,7 +59,7 @@
         </div>
 
         <div class="modal fade" id="createCustomerModal" tabindex="-1" aria-labelledby="createCustomerModalLabel"
-            aria-hidden="true">
+            data-bs-dismiss="modal" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -96,7 +96,8 @@
                                             Create</i>
                                     </button>
 
-                                    <button type="button" class="btn btn-secondary"
+                                    <button type="button" class="btn btn-secondary" id="closeButton"
+                                        onclick="closeModal('createCustomerModal')"
                                         data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -146,7 +147,7 @@
                                     </button>
 
                                     <button type="button" class="btn btn-secondary"
-                                        data-bs-dismiss="modal">Close</button>
+                                        onclick="closeModal('editCustomerModal')" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </form>
@@ -155,7 +156,7 @@
             </div>
         </div>
         <div class="modal fade" id="depositCustomerModal" tabindex="-1" aria-labelledby="depositCustomerModal"
-            aria-hidden="true">
+            data-bs-dismiss="modal" aria-hidden=" true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -197,6 +198,7 @@
                                     </button>
 
                                     <button type="button" class="btn btn-secondary"
+                                        onclick="closeModal('depositCustomerModal')"
                                         data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -236,7 +238,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="withdrawAmount" class="form-label">Deposit Amount</label>
-                                    <input type="number" class="form-control" id="withdrawAmount" name="depositAmount">
+                                    <input type="number" class="form-control" id="withdrawAmount" name="withdrawAmount">
                                 </div>
                             </div>
                             <div class="row pt-3">
@@ -248,6 +250,7 @@
                                     </button>
 
                                     <button type="button" class="btn btn-secondary"
+                                        onclick="closeModal('withdrawCustomerModal')"
                                         data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -322,6 +325,9 @@
                                         <i class="fas fa-exchange-alt"></i>
                                         Transfer
                                     </button>
+                                    <button type="button" class="btn btn-secondary"
+                                        onclick="closeModal('transferCustomerModal')"
+                                        data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </form>
@@ -334,7 +340,7 @@
             aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
-                    <span id="toastMessage">aaaaaaaaaaaaaaaaaaaaaa</span>
+                    <span id="toastMessage"></span>
                 </div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                     aria-label="Close"></button>
@@ -343,65 +349,13 @@
     </div>
 
     <script>
-        async function logMovies() {
-            const response = await fetch("http://localhost:3300/customer");
-            const movies = await response.json();
-            return movies
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                const bsModal = new bootstrap.Modal(modal);
+                bsModal.hide();
+            }
         }
-
-        function renderMovies(movies) {
-            const renderCustomer = document.getElementById("render-customer");
-            let tableContent = "";
-
-            movies.forEach(customer => {
-                tableContent += `
-        <tr>
-                    <td>${customer.id}</td>
-                    <td>${customer.fullName}</td>
-                    <td>${customer.email}</td>
-                    <td>${customer.phone}</td>
-                    <td>${customer.address}</td>
-                    <td>${customer.balance}</td>
-                    <td>                        
-                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editCustomerModalLabel" onclick="openEditModal(${customer.id})">
-                                <i class="far fa-edit"></i>
-                        </button>                        
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#depositCustomerModalLabel" onclick="openDepositModal(${customer.id})">
-                                <i class="fas fa-plus"></i>
-                        </button>
-                    </td>
-                    <td>                        
-                        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#withdrawCustomerModal" onclick = "openWithdrawtModal(${customer.id})">
-                                <i class="fas fa-minus"></i>
-                        </button>                        
-                    </td>
-                    <td>                        
-                        <button type="button" class="btn btn-outline-primary" onclick = "openTransfertModal(${customer.id})">
-                            <i class="fas fa-exchange-alt"></i>
-                        </button>                        
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-outline-danger">
-                            <i class="fas fa-ban"></i>
-                        </button>                    
-                    </td>
-        </tr>           
-            `;
-            });
-
-            renderCustomer.innerHTML = tableContent;
-        }
-
-        async function main() {
-            const movies = await logMovies();
-            renderMovies(movies);
-
-        }
-
-        main();
-
 
     </script>
     <script src="create.js"></script>

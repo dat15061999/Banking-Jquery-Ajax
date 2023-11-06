@@ -1,3 +1,4 @@
+//click vao nut
 function openDepositModal(customerId) {
     const fullName = document.querySelector('#depositfullName');
     const email = document.querySelector('#depositemail');
