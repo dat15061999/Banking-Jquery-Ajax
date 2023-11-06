@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>History of transfer list</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    <!-- <link rel="stylesheet" href="/assets/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand">List of customers</a>
+                    <div class="d-flex" style="gap: 10px;">
+                        <a href="/home.html">
+                            <button class="btn btn-outline-light" type="button">
+                                <i class="fas fa-list-ul"></i>
+                                Customers list
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="content">
+            <table class="table table-hover">
+                <thead>
+                    <tr style="text-align: center">
+                        <th>#</th>
+                        <th>Sender</th>
+                        <th>Transfer amount</th>
+                        <th>Fee (%)</th>
+                        <th>Fee Amount</th>
+                        <th>Total</th>
+                        <th>Recipient</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="renderHis">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        async function viewHistory() {
+            const response = await fetch("http://localhost:3300/transfer");
+            const transfers = await response.json();
+            return transfers
+        }
+
+        async function renderTransfers(transfers) {
+            const renderCustomer = document.getElementById("renderHis");
+            let tableContent = "";
+
+            for (const transfer of transfers) {
+                const senderNamePromise = getByName(transfer.senderCustomer);
+                const recipientNamePromise = getByName(transfer.recipientCustomer);
+
+                const [senderName, recipientName] = await Promise.all([senderNamePromise, recipientNamePromise]);
+
+                tableContent += `
+            <tr style=" text-align: center;">
+                <td>${transfer.id}</td>
+                <td>${senderName}</td>
+                <td>${transfer.transferAmount}</td>
+                <td>${transfer.fees}</td>
+                <td>${transfer.feesAmount}</td>
+                <td>${transfer.transactionAmount}</td>
+                <td>${recipientName}</td>
+                </td>
+                <td>
+                    <button class="btn btn-outline-danger">
+                        <i class="fas fa-ban"></i>
+                    </button>
+                </td>
+            </tr>
+        `;
+            }
+
+            renderCustomer.innerHTML = tableContent;
+        }
+
+
+        async function view() {
+            const transfers = await viewHistory();
+            renderTransfers(transfers);
+        }
+
+        view();
+
+        async function getByName(customerID) {
+            const response = await fetch("http://localhost:3300/customer/" + customerID);
+            const customer = await response.json();
+            const fullName = customer.fullName;
+            return fullName;
+        }
+    </script>
+</body>
+
+</html>
