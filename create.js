@@ -92,6 +92,8 @@ async function logCustomers() {
 function renderViewCustomers(customerList) {
     const renderCustomer = $("#render-customer");
     renderCustomer.empty();
+
+    customerList.reverse();
     let tableContent = "";
 
     customerList.forEach(customer => {
