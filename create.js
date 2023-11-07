@@ -327,8 +327,10 @@ $("#transferAmount").on("input", function () {
     var feesValue = parseFloat($("#fees").val());
     var totalAmount = transferAmount + (transferAmount * (feesValue / 100));
     var feesAmount = transferAmount * (feesValue / 100);
-    $("#transactionAmount").setAttribute("value", totalAmount);
-    $("#feesAmount").setAttribute("value", feesAmount);
+
+    // Sử dụng .val() để đặt giá trị của các trường
+    $("#transactionAmount").val(totalAmount);
+    $("#feesAmount").val(feesAmount);
 });
 
 const transferCustomerModal = new bootstrap.Modal($("#transferCustomerModal"));
