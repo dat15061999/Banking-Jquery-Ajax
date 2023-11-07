@@ -2,15 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>List of customers</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="/assets/css/custom-style.css">
-    <!-- <link rel="stylesheet" href="/assets/css/bootstrap.min.css"> -->
+    <title>List of customers</title>
+    <link rel="stylesheet" href="/assets/bootstrap/v5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/custom-style.css">
+    <link rel="stylesheet" href="/assets/css/loading.css">
+    <script src="/assets/jquery/jquery-3.7.1.min.js"></script>
+    <script src="/assets/jquery/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -30,7 +31,7 @@
                         </a>
                         <a>
                             <button class="btn btn-outline-light" type="button" data-bs-toggle="modal"
-                                data-bs-target="#createCustomerModal" onclick="createCustomer()">
+                                data-bs-target="#createCustomerModal">
                                 <i class="far fa-plus-square"></i>
                                 Add new customer
                             </button>
@@ -57,9 +58,8 @@
                 </tbody>
             </table>
         </div>
-
         <div class="modal fade" id="createCustomerModal" tabindex="-1" aria-labelledby="createCustomerModalLabel"
-            data-bs-dismiss="modal" aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -67,7 +67,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" class="createCustomerForm">
+                        <form method="post" id="frmCreate">
                             <div class="row mb-3 mt-3">
                                 <div class="col-lg-6">
                                     <label for="fullName" class="form-label">Full Name</label>
@@ -141,7 +141,7 @@
                             <div class="row pt-3">
                                 <div class="col-lg-3 modal-footer">
 
-                                    <button type="submit" class="btn btn-outline-secondary" id="edit">
+                                    <button type="button" class="btn btn-outline-secondary" id="edit">
                                         <i class="far fa-edit">
                                             Edit</i>
                                     </button>
@@ -156,7 +156,7 @@
             </div>
         </div>
         <div class="modal fade" id="depositCustomerModal" tabindex="-1" aria-labelledby="depositCustomerModal"
-            data-bs-dismiss="modal" aria-hidden=" true">
+            aria-hidden=" true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -347,7 +347,14 @@
             </div>
         </div>
     </div>
-
+    <div id="loading" class="sk-chase hide">
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+        <div class="sk-chase-dot"></div>
+    </div>
     <script>
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -359,7 +366,6 @@
 
     </script>
     <script src="create.js"></script>
-    <script src="edit.js"></script>
     <script src="deposit.js"></script>
     <script src="withdraw.js"></script>
     <script src="transfer.js"></script>

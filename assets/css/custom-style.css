@@ -3,19 +3,13 @@
 }
 
 .navbar-brand {
-    font-size: 36px !important;
-    color: #fff !important;
-    font-weight: 500 !important;
+    font-size: 36px;
+    color: #fff;
+    font-weight: 500;
 }
 
 .navbar-brand:hover {
-    color: #fff !important;
-    ;
-}
-
-.navbar-brand:after {
-    color: #ce2727 !important;
-    ;
+    color: #fff;
 }
 
 table thead tr th {
@@ -23,6 +17,9 @@ table thead tr th {
     color: #fff !important;
 }
 
+.hide {
+    display: none;
+}
 
 footer {
     padding: 10px 0;
@@ -48,4 +45,12 @@ footer.error {
 
 .notification p.error {
     color: #b05965;
+}
+
+label.error {
+    color: #cf0000;
+}
+
+input.error {
+    border: solid 1px #cf0000;
 }
